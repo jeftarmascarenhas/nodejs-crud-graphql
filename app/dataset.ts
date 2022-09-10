@@ -1,7 +1,4 @@
-export type User = {
-  id: number;
-  name: string;
-};
+import { User } from "./entities";
 
 const users: User[] = [
   { id: 1, name: "John" },
