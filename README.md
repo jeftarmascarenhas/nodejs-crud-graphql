@@ -24,3 +24,15 @@ Dev Dependencies:
 - [nodemon](https://www.npmjs.com/package/nodemon)
 - [ts-node](https://www.npmjs.com/package/ts-node)
 - [typescript](https://www.npmjs.com/package/typescript)
+
+Install
+
+```shell
+yarn
+```
+
+Run project
+
+```shell
+yarn start // localhost:4000
+```
