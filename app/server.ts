@@ -2,6 +2,7 @@ import { ApolloServer } from "apollo-server-express";
 import {
   ApolloServerPluginDrainHttpServer,
   ApolloServerPluginLandingPageLocalDefault,
+  AuthenticationError,
 } from "apollo-server-core";
 import express from "express";
 import http from "http";
@@ -9,6 +10,7 @@ import { WebSocketServer } from "ws";
 import { Resolvers, Schema } from "./graphql";
 import { useServer } from "graphql-ws/lib/use/ws";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import { getUser } from "./utils/getUser";
 
 async function startApolloServer(typeDefs: any, resolvers: any) {
   const schema = makeExecutableSchema({ typeDefs, resolvers });
@@ -29,6 +31,16 @@ async function startApolloServer(typeDefs: any, resolvers: any) {
     schema,
     csrfPrevention: true,
     cache: "bounded",
+    context: ({ req }) => {
+      const token = req.get("Authorization") || "";
+      const user = getUser(token.replace("Bearer", ""));
+      // if (!user)
+      //   throw new AuthenticationError(
+      //     "you must be logged in to query this schema"
+      //   );
+      return { user };
+    },
+    introspection: true,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {

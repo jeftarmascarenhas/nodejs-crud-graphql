@@ -2,7 +2,10 @@ import users from "../../dataset";
 import { User } from "../../entities";
 
 const queries = {
-  getAllUsers: () => users,
+  getAllUsers: (_: any, args: any, { user }: { user: User }) => {
+    if (!user) throw new Error("You are not authenticated!");
+    return users;
+  },
   getUserById: (_: any, args: User) =>
     users.find((user) => user.id === args.id),
 };

@@ -1,4 +1,5 @@
 import { User } from "./User";
+import { Login } from "./Login";
 
 const Resolvers = {
   Query: {
@@ -6,6 +7,7 @@ const Resolvers = {
   },
   Mutation: {
     ...User.resolvers.mutation,
+    ...Login.resolvers.mutations,
   },
 };
 
